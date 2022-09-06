@@ -45,7 +45,9 @@ func main() {
 			_, _ = fmt.Fprintln(out, position, closestPosition)
 		}
 
-		_, _ = fmt.Fprint(out, "\n")
+		if i != setCount-1 {
+			_, _ = fmt.Fprintln(out)
+		}
 	}
 }
 
@@ -65,7 +67,7 @@ func getClosestIndexByAbsDiff(values map[int]int, value int) (index int) {
 		if abs(arr[i].Value-value) != abs(arr[j].Value-value) {
 			return abs(arr[i].Value-value) < abs(arr[j].Value-value)
 		}
-		return arr[i].Key > arr[i].Key
+		return arr[i].Key < arr[j].Key
 	})
 
 	return arr[0].Key
