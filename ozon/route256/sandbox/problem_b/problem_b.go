@@ -18,14 +18,14 @@ func main() {
 	_, _ = fmt.Fscan(in, &setCount)
 
 	for i := 0; i < setCount; i++ {
-		var goodsCount int
+		var goodCount int
 		var goodPrice int
 
 		goods := make(map[int]int)
 
-		_, _ = fmt.Fscan(in, &goodsCount)
+		_, _ = fmt.Fscan(in, &goodCount)
 
-		for j := 0; j < goodsCount; j++ {
+		for j := 0; j < goodCount; j++ {
 			_, _ = fmt.Fscan(in, &goodPrice)
 			goods[goodPrice]++
 		}
