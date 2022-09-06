@@ -57,10 +57,11 @@ func RunTest(f func(), inputFilePath string, resultFilePath string) (err error) 
 		_ = wOutput.Close()
 	}()
 
-	check := func(b1 bool, b2 bool) {
+	check := func(b1 bool, b2 bool) error {
 		if (!b1 && b2) || (b1 && !b2) {
-			err = errors.New("test failed. number of lines in problem response and test file does not match")
+			return errors.New("test failed. number of lines in problem response and test file does not match")
 		}
+		return nil
 	}
 
 	rOutputScanner := bufio.NewScanner(rOutput)
@@ -69,7 +70,10 @@ func RunTest(f func(), inputFilePath string, resultFilePath string) (err error) 
 	b1 := rOutputScanner.Scan()
 	b2 := resultFileScanner.Scan()
 
-	check(b1, b2)
+	err = check(b1, b2)
+	if err != nil {
+		return err
+	}
 
 	i := 1
 
@@ -80,12 +84,16 @@ func RunTest(f func(), inputFilePath string, resultFilePath string) (err error) 
 		if outputLine != resultFileLine {
 			err = fmt.Errorf("test failed on line %d! output value: %s. expected value: %s",
 				i, outputLine, resultFileLine)
+			return err
 		}
 
 		b1 = rOutputScanner.Scan()
 		b2 = resultFileScanner.Scan()
 
-		check(b1, b2)
+		err = check(b1, b2)
+		if err != nil {
+			return err
+		}
 
 		i++
 	}
