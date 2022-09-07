@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="go test codeforces_go" type="GoTestRunConfiguration" factoryName="Go Test">
-    <module name="codeforces_go" />
+    <module name="codeforces-go" />
     <working_directory value="$PROJECT_DIR$" />
     <kind value="DIRECTORY" />
     <package value="codeforces_go/" />
