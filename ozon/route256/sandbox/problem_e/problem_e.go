@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strings"
 	. "time"
 )
@@ -22,12 +23,12 @@ func main() {
 	}(out)
 
 	var timeSpans []timeSpan
-
 	var t int
 	_, _ = fmt.Fscan(in, &t)
 
 	for i := 0; i < t; i++ {
 		var n int
+		var flag = false
 		timeSpans = nil
 
 		_, _ = fmt.Fscan(in, &n)
@@ -35,58 +36,58 @@ func main() {
 
 		for j := 0; j < n; j++ {
 			str, _ := in.ReadString('\n')
+			if flag {
+				continue
+			}
 			str = strings.ReplaceAll(str, "\r", "")
 			str = strings.ReplaceAll(str, "\n", "")
 			subStrings := strings.SplitN(str, "-", 2)
 
 			t1, err := Parse("2006-01-02 15:04:05", "2000-01-01 "+subStrings[0])
 			if err != nil {
-				_, _ = fmt.Fprintln(out, "NO")
-				break
+				flag = true
+				continue
 			}
 
 			t2, err := Parse("2006-01-02 15:04:05", "2000-01-01 "+subStrings[1])
 			if err != nil {
-				_, _ = fmt.Fprintln(out, "NO")
-				break
+				flag = true
+				continue
 			}
 
 			if t1.Unix() > t2.Unix() {
-				_, _ = fmt.Fprintln(out, "NO")
-				break
+				flag = true
+				continue
 			}
 
 			timeSpans = append(timeSpans, timeSpan{t1, t2})
 		}
 
-		for x := 0; x < len(timeSpans)-1; x++ {
-			for y := x + 1; y < len(timeSpans); y++ {
-				if isOverlapped(timeSpans[x].begin, timeSpans[x].end, timeSpans[y].begin, timeSpans[y].end) {
-					_, _ = fmt.Fprintln(out, "NO")
-					return
-				}
-			}
+		if flag || isOverlapped(timeSpans) {
+			_, _ = fmt.Fprintln(out, "NO")
+			continue
 		}
 
 		_, _ = fmt.Fprintln(out, "YES")
 	}
 }
 
-func min(x, y int64) int64 {
-	if x < y {
-		return x
+func isOverlapped(timeSpans []timeSpan) bool {
+	if timeSpans == nil || len(timeSpans) == 0 {
+		return false
 	}
-	return y
-}
 
-func max(x, y int64) int64 {
-	if x > y {
-		return x
+	sort.Slice(timeSpans, func(i, j int) bool {
+		return timeSpans[i].begin.Unix() < timeSpans[j].begin.Unix()
+	})
+
+	for i := 1; i < len(timeSpans); i++ {
+		var i1 = timeSpans[i-1]
+		var i2 = timeSpans[i]
+		if i1.end.Unix() >= i2.begin.Unix() {
+			return true
+		}
 	}
-	return y
-}
 
-func isOverlapped(begin1 Time, end1 Time, begin2 Time, end2 Time) bool {
-	return max(begin1.Unix(), begin2.Unix()) <= min(end1.Unix(), end2.Unix())
-	//return begin1.Unix() < end2.Unix() && end1.Unix() > begin2.Unix()
+	return false
 }
