@@ -11,11 +11,11 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 
 	defer func(out *bufio.Writer) {
-		_ = out.Flush()
+		out.Flush()
 	}(out)
 
 	var setCount int
-	_, _ = fmt.Fscan(in, &setCount)
+	fmt.Fscan(in, &setCount)
 
 	for i := 0; i < setCount; i++ {
 		var daysCount int
@@ -24,33 +24,26 @@ func main() {
 
 		tasks := make(map[int]bool)
 
-		_, _ = fmt.Fscan(in, &daysCount)
+		fmt.Fscan(in, &daysCount)
 
-		var flag = false
+		flag := false
 
 		for j := 0; j < daysCount; j++ {
-			_, _ = fmt.Fscan(in, &taskId)
+			fmt.Fscan(in, &taskId)
 			if previousTaskId == 0 {
 				previousTaskId = taskId
 			}
-			_, exist := tasks[taskId]
-			if !exist {
+			if !tasks[taskId] {
 				tasks[taskId] = true
 				previousTaskId = taskId
-				continue
-			} else {
-				if previousTaskId == taskId {
-					continue
-				} else {
-					flag = true
-					continue
-				}
+			} else if previousTaskId != taskId {
+				flag = true
 			}
 		}
 		if flag {
-			_, _ = fmt.Fprintln(out, "NO")
+			fmt.Fprintln(out, "NO")
 		} else {
-			_, _ = fmt.Fprintln(out, "YES")
+			fmt.Fprintln(out, "YES")
 		}
 	}
 }
