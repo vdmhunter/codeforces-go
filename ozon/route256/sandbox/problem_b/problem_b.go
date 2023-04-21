@@ -11,11 +11,11 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 
 	defer func(out *bufio.Writer) {
-		_ = out.Flush()
+		out.Flush()
 	}(out)
 
 	var setCount int
-	_, _ = fmt.Fscan(in, &setCount)
+	fmt.Fscan(in, &setCount)
 
 	for i := 0; i < setCount; i++ {
 		var goodCount int
@@ -23,10 +23,10 @@ func main() {
 
 		goods := make(map[int]int)
 
-		_, _ = fmt.Fscan(in, &goodCount)
+		fmt.Fscan(in, &goodCount)
 
 		for j := 0; j < goodCount; j++ {
-			_, _ = fmt.Fscan(in, &goodPrice)
+			fmt.Fscan(in, &goodPrice)
 			goods[goodPrice]++
 		}
 
@@ -37,6 +37,6 @@ func main() {
 			totalPrice = totalPrice + uint64(price*goodCountForPay)
 		}
 
-		_, _ = fmt.Fprintln(out, totalPrice)
+		fmt.Fprintln(out, totalPrice)
 	}
 }

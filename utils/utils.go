@@ -14,7 +14,7 @@ func RunTest(f func(), inputFilePath string, resultFilePath string) (err error) 
 	}
 
 	defer func(file *os.File) {
-		_ = file.Close()
+		file.Close()
 	}(inputFile)
 
 	resultFile, err := os.Open(resultFilePath)
@@ -23,7 +23,7 @@ func RunTest(f func(), inputFilePath string, resultFilePath string) (err error) 
 	}
 
 	defer func(file *os.File) {
-		_ = file.Close()
+		file.Close()
 	}(resultFile)
 
 	rInput, wInput, err := os.Pipe()
@@ -42,9 +42,9 @@ func RunTest(f func(), inputFilePath string, resultFilePath string) (err error) 
 		inputFileScanner.Buffer(buf, 2048*1024)
 
 		for inputFileScanner.Scan() {
-			_, _ = wInput.WriteString(inputFileScanner.Text() + "\n")
+			wInput.WriteString(inputFileScanner.Text() + "\n")
 		}
-		_ = wInput.Close()
+		wInput.Close()
 	}()
 
 	defer func(v *os.File) { os.Stdin = v }(os.Stdin)
@@ -54,7 +54,7 @@ func RunTest(f func(), inputFilePath string, resultFilePath string) (err error) 
 
 	go func() {
 		f()
-		_ = wOutput.Close()
+		wOutput.Close()
 	}()
 
 	check := func(b1 bool, b2 bool) error {

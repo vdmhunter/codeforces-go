@@ -11,11 +11,11 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 
 	defer func(out *bufio.Writer) {
-		_ = out.Flush()
+		out.Flush()
 	}(out)
 
 	var setCount int
-	_, _ = fmt.Fscan(in, &setCount)
+	fmt.Fscan(in, &setCount)
 
 	for i := 0; i < setCount; i++ {
 	}

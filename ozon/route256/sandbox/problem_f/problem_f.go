@@ -12,13 +12,13 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 
 	defer func(out *bufio.Writer) {
-		_ = out.Flush()
+		out.Flush()
 	}(out)
 
 	var n int
 	var m int
 
-	_, _ = fmt.Fscan(in, &n, &m)
+	fmt.Fscan(in, &n, &m)
 
 	adj := make([][]int, n)
 
@@ -26,7 +26,7 @@ func main() {
 		var u int
 		var v int
 
-		_, _ = fmt.Fscan(in, &u, &v)
+		fmt.Fscan(in, &u, &v)
 
 		addEdge(adj, u-1, v-1)
 	}
@@ -34,12 +34,12 @@ func main() {
 	for i := 0; i < n; i++ {
 		sf := bfs(adj, i)
 		for j := 0; j < len(sf); j++ {
-			_, _ = fmt.Fprint(out, sf[j])
+			fmt.Fprint(out, sf[j])
 			if j < len(sf)-1 {
-				_, _ = fmt.Fprint(out, " ")
+				fmt.Fprint(out, " ")
 			}
 		}
-		_, _ = fmt.Fprintln(out)
+		fmt.Fprintln(out)
 	}
 }
 

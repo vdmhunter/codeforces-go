@@ -19,20 +19,20 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 
 	defer func(out *bufio.Writer) {
-		_ = out.Flush()
+		out.Flush()
 	}(out)
 
 	var timeSpans []timeSpan
 	var t int
-	_, _ = fmt.Fscan(in, &t)
+	fmt.Fscan(in, &t)
 
 	for i := 0; i < t; i++ {
 		var n int
 		var flag = false
 		timeSpans = nil
 
-		_, _ = fmt.Fscan(in, &n)
-		_, _ = in.ReadString('\n')
+		fmt.Fscan(in, &n)
+		in.ReadString('\n')
 
 		for j := 0; j < n; j++ {
 			str, _ := in.ReadString('\n')
@@ -64,11 +64,11 @@ func main() {
 		}
 
 		if flag || isOverlapped(timeSpans) {
-			_, _ = fmt.Fprintln(out, "NO")
+			fmt.Fprintln(out, "NO")
 			continue
 		}
 
-		_, _ = fmt.Fprintln(out, "YES")
+		fmt.Fprintln(out, "YES")
 	}
 }
 

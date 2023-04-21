@@ -11,15 +11,15 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 
 	defer func(out *bufio.Writer) {
-		_ = out.Flush()
+		out.Flush()
 	}(out)
 
 	var testCount int
-	_, _ = fmt.Fscan(in, &testCount)
+	fmt.Fscan(in, &testCount)
 
 	for i := 0; i < testCount; i++ {
 		var n, m int
-		_, _ = fmt.Fscan(in, &n, &m)
-		_, _ = fmt.Fprintln(out, n+m)
+		fmt.Fscan(in, &n, &m)
+		fmt.Fprintln(out, n+m)
 	}
 }

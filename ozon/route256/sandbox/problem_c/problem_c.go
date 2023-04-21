@@ -12,11 +12,11 @@ func main() {
 	out := bufio.NewWriter(os.Stdout)
 
 	defer func(out *bufio.Writer) {
-		_ = out.Flush()
+		out.Flush()
 	}(out)
 
 	var setCount int
-	_, _ = fmt.Fscan(in, &setCount)
+	fmt.Fscan(in, &setCount)
 
 	for i := 0; i < setCount; i++ {
 		var developerCount int
@@ -25,10 +25,10 @@ func main() {
 		skills := make(map[int]int)
 		positions := make([]int, 0, len(skills))
 
-		_, _ = fmt.Fscan(in, &developerCount)
+		fmt.Fscan(in, &developerCount)
 
 		for j := 1; j <= developerCount; j++ {
-			_, _ = fmt.Fscan(in, &developerSkill)
+			fmt.Fscan(in, &developerSkill)
 			skills[j] = developerSkill
 			positions = append(positions, j)
 		}
@@ -42,11 +42,11 @@ func main() {
 			closestPosition := getClosestIndexByAbsDiff(skills, skill)
 			delete(skills, closestPosition)
 
-			_, _ = fmt.Fprintln(out, position, closestPosition)
+			fmt.Fprintln(out, position, closestPosition)
 		}
 
 		if i != setCount-1 {
-			_, _ = fmt.Fprintln(out)
+			fmt.Fprintln(out)
 		}
 	}
 }
